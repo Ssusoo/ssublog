@@ -2,8 +2,13 @@ package me.ssu.api.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import me.ssu.api.dto.PostCreate;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +36,7 @@ import java.util.Map;
  * HTTP Method
  *  GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
  */
+
 /**
  * key=value 데이터 형태와 Json 데이터
  *  1) Key=Value(@RequestParam)
@@ -46,10 +52,30 @@ public class PostController {
 	@PostMapping("/posts")
 //	public String post(@RequestParam String title, @RequestParam String content) {
 //	public String post(@RequestParam Map<String, String> params) {
-	public String post(@RequestBody PostCreate params) {
+	public Map<String, String> post(@Valid @RequestBody PostCreate params, BindingResult result) {
+		/**
+		 * 데이터를 검증하는 이유?
+		 *  1) 클라이언트 개발자가 깜박할 수 있다.
+		 *  2) 클라이언트 버그로 값을 누락할 수 있다.
+		 *  3) 외부에서 값을 임의로 조작해 보낼 수 있다.
+		 *  4) DB에 값을 저장할 때 의도하지 않은 오류가 발생할 수 있다.
+		 *  5) 서버 개발자의 편안함을 위해
+		 */
 //		log.info("title={}, content={}", title, content);
 //		log.info("params={}", params);
 		log.info("params={}", params.toString());
-		return "Hello World";
+
+		if (result.hasErrors()) {
+			var fieldErrors = result.getFieldErrors();
+			var fieldError = fieldErrors.get(0);
+			var filedName = fieldError.getField(); // title
+			var errorMessage = fieldError.getDefaultMessage(); // 에러 메시지
+
+			Map<String, String> error = new HashMap<>();
+			error.put(filedName, errorMessage);
+
+			return error;
+		}
+		return Map.of();
 	}
 }
