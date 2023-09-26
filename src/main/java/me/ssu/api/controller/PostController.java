@@ -1,7 +1,10 @@
 package me.ssu.api.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import me.ssu.api.dto.PostCreate;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * SSR(Server-Side Rendering)
@@ -23,11 +26,30 @@ import org.springframework.web.bind.annotation.RestController;
  *  사용자와 상호작용할 수 있는 웹 애플리케이션을 구축할 수 있다.
  *  페이지 또는 페이지의 일부를 동적으로 업데이트해 사용자에게 더 나은 사용자 경험을 제공한다.
  */
+
+/**
+ * HTTP Method
+ *  GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD, TRACE, CONNECT
+ */
+/**
+ * key=value 데이터 형태와 Json 데이터
+ *  1) Key=Value(@RequestParam)
+ *      /v1/posts/title=xxx&content=xxx&userId=xxx&userName=xxx
+ *      완전히 풀어서 보내는 형태이기에 한계가 있다.
+ *
+ *  2) Json Data(@RequestBody)
+ */
+@Slf4j // Lombok
 @RestController
 public class PostController {
 
-	@GetMapping("/posts")
-	public String get() {
+	@PostMapping("/posts")
+//	public String post(@RequestParam String title, @RequestParam String content) {
+//	public String post(@RequestParam Map<String, String> params) {
+	public String post(@RequestBody PostCreate params) {
+//		log.info("title={}, content={}", title, content);
+//		log.info("params={}", params);
+		log.info("params={}", params.toString());
 		return "Hello World";
 	}
 }
