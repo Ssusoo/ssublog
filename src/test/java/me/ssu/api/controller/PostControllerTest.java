@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest extends BaseTest {
 
 	@Test
-	@DisplayName("글 등록")
+	@DisplayName("글 등록 - 성공")
 	void createPost() throws Exception {
 		// When & Then
 		mockMvc.perform(MockMvcRequestBuilders.post("/posts")
@@ -25,7 +25,7 @@ class PostControllerTest extends BaseTest {
 	}
 
 	@Test
-	@DisplayName("글 등록 - 글제목이 필수인 경우")
+	@DisplayName("글 등록 - 실패 - 글제목이 필수인 경우")
 	void createPostFiledError() throws Exception {
 		// When & Then
 		mockMvc.perform(MockMvcRequestBuilders.post("/posts")
@@ -37,7 +37,8 @@ class PostControllerTest extends BaseTest {
 				)
 				.andDo(print())
 				.andExpect(status().isBadRequest())
-				.andExpect(jsonPath("title").value("")); // (성공)
+				.andExpect(jsonPath("code").value("400"))
+				.andExpect(jsonPath("message").value("잘못된 요청입니다."));
 //				 .andExpect(content().string("Hello World2")); // (실패)
 	}
 }

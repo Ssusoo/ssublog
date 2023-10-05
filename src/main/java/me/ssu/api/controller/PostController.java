@@ -52,7 +52,7 @@ public class PostController {
 	@PostMapping("/posts")
 //	public String post(@RequestParam String title, @RequestParam String content) {
 //	public String post(@RequestParam Map<String, String> params) {
-	public Map<String, String> post(@Valid @RequestBody PostCreate params, BindingResult result) {
+	public Map<String, String> post(@Valid @RequestBody PostCreate params) {
 		/**
 		 * 데이터를 검증하는 이유?
 		 *  1) 클라이언트 개발자가 깜박할 수 있다.
@@ -65,17 +65,17 @@ public class PostController {
 //		log.info("params={}", params);
 		log.info("params={}", params.toString());
 
-		if (result.hasErrors()) {
-			var fieldErrors = result.getFieldErrors();
-			var fieldError = fieldErrors.get(0);
-			var filedName = fieldError.getField(); // title
-			var errorMessage = fieldError.getDefaultMessage(); // 에러 메시지
-
-			Map<String, String> error = new HashMap<>();
-			error.put(filedName, errorMessage);
-
-			return error;
-		}
+//		if (result.hasErrors()) {
+//			var fieldErrors = result.getFieldErrors();
+//			var fieldError = fieldErrors.get(0);
+//			var filedName = fieldError.getField(); // title
+//			var errorMessage = fieldError.getDefaultMessage(); // 에러 메시지
+//
+//			Map<String, String> error = new HashMap<>();
+//			error.put(filedName, errorMessage);
+//
+//			return error;
+//		}
 		return Map.of();
 	}
 }
