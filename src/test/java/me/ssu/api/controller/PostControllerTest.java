@@ -38,7 +38,8 @@ class PostControllerTest extends BaseTest {
 				.andDo(print())
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("code").value("400"))
-				.andExpect(jsonPath("message").value("잘못된 요청입니다."));
+				.andExpect(jsonPath("message").value("잘못된 요청입니다."))
+				.andExpect(jsonPath("validation.title").value("글 제목이 없습니다."));
 //				 .andExpect(content().string("Hello World2")); // (실패)
 	}
 }
